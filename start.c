@@ -1,6 +1,5 @@
 #include "start.h"
 #include "general.h"
-#include <stdio.h>
 
 int * distribute (int x, int *cardptr, int *fn, int (*deck)[DECKSIZE]) {
     while (x--) {

@@ -16,3 +16,13 @@ void shuffle (int *card){
         swap(card + i, card + rnd);
     }
 }
+
+void sort (int *arr, int sz) { /*bubble sort algorithm*/
+    for (int i = 0; i < sz; i++) {
+        for (int j = 0; j < sz - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(arr + j, arr + j + 1);
+            }
+        }
+    }
+}
