@@ -21,23 +21,30 @@ int main() {
         for (int j = 0; j < 3; j++) {
             cardptr = distribute(ord[j], cardptr, fn[i], deck[i]);
             if (i == 0 && j == 0) {
+                for (int k = 0; k < KHAL; k++) {
+                    sort(deck[i][k], fn[i][k]);
+                }
+                inhand(i, fn[i], deck[i]);
                 printf("Enter hokm: \n");
-                int c;
-                scanf("%d", &c);
-                set_hokm(&hokm, c);
+                char c;
+                scanf("%c", &c);
+                getchar();
+                set_hokm(&hokm, c - 'A');
             }
         }
     }
 
+    clear_screen();
+
     for (int i = 0; i < CNT; i++) { /*sort the cards based on value*/
-        printf("PLAYER: %d\n", i);
+        //printf("PLAYER: %d\n", i);
         for (int j = 0; j < KHAL; j++) {
-            printf("KHAL: %d\n", j);
+            //printf("KHAL: %d\n", j);
             sort(deck[i][j], fn[i][j]);
-            for (int k = 0; k < fn[i][j]; k++) {
-                printf("%d ", deck[i][j][k]);
-            }
-            printf("\n");
+            /* for (int k = 0; k < fn[i][j]; k++) { */
+            /*     printf("%d ", deck[i][j][k]); */
+            /* } */
+            /* printf("\n"); */
         }
     }
 
@@ -47,21 +54,26 @@ int main() {
     int starter = 0; /*the person who starts the round*/
     while(MAX(score[0], score[1]) <= DECKSIZE / 2){
         int base = -1; /*what khal is the base in the begining it's determined by the starter*/
-        int game[CNT]; /*state of the game*/
+        int game[CNT] = {-1, -1, -1, -1}; /*state of the game*/
         for (int i = 0; i < CNT; i++) {
+            clear_screen();
+            draw_board(game);
             int cur = (starter + i) % CNT; /*current player*/
-            int cardplayed;
+            int cardind, cardplayed;
             int khal;
             inhand(cur, fn[cur], deck[cur]);
             do{
                 printf("PLAY YOUR CARD: \n");
-                scanf("%d", &cardplayed);
+                scanf("%d", &cardind);
+                cardplayed = ind_to_card(fn[cur], deck[cur], cardind);
                 khal = cardplayed/ DECKSIZE;
                 if(!i){
                     base = khal;
                 }
             } while (play(base, cardplayed, game + cur, fn[cur], deck[cur]));
         }
+        clear_screen();
+        draw_board(game);
         starter = winner(base, hokm, game); /*winner is the starter of the next round*/
         score[starter & 1]++; /*add score of the winning team*/
     }

@@ -1,4 +1,5 @@
 #include "general.h"
+#include <stdio.h>
 
 void swap (int *a, int *b) {
     int tmp = *a;
@@ -25,4 +26,24 @@ void sort (int *arr, int sz) { /*bubble sort algorithm*/
             }
         }
     }
+}
+
+void convert(int x, char *ans){
+    ans[0] = 'A' + (x / DECKSIZE);
+    x %= DECKSIZE;
+    x++;
+    ans[1] = '0' + (x / 10);
+    ans[2] = '0' + (x % 10);
+    ans[3] = '\0';
+}
+
+int ind_to_card(int *fn, int (*deck)[DECKSIZE], int ind) {
+    for (int i = 0; i < KHAL; i++) {
+        if (ind >= fn[i]) {
+            ind -= fn[i];
+            continue;
+        }
+        return i * 13 + deck[i][ind];
+    }
+    return 0;
 }
