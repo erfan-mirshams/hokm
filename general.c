@@ -18,6 +18,15 @@ void shuffle (int *card){
     }
 }
 
+void delay()
+{
+    for(int i = 0; i < 1000;i++){
+        for (int j = 0; j < 1000; j++) {
+            for(int k = 0; k < 1000; k++);
+        }
+    }
+}
+
 void sort (int *arr, int sz) { /*bubble sort algorithm*/
     for (int i = 0; i < sz; i++) {
         for (int j = 0; j < sz - i - 1; j++) {
@@ -43,7 +52,11 @@ int ind_to_card(int *fn, int (*deck)[DECKSIZE], int ind) {
             ind -= fn[i];
             continue;
         }
-        return i * 13 + deck[i][ind];
+        return i * DECKSIZE + deck[i][ind];
     }
     return 0;
+}
+
+void flush() {
+    while(getchar() != '\n');
 }

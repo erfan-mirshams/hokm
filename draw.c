@@ -54,7 +54,8 @@ void inhand (int player, int *fn, int (*deck)[DECKSIZE]) { /*outputs the deck in
     printf("\n");
 }
 
-void draw_board(int *game, int *score) {
+void draw_board(int *game, int *score, int hokm) {
+    printf("HOKM: %c\n", 'A' + hokm);
     whitespace(WIDTH / 2 + 1);
     printf("P3\n");
     whitespace(3);
