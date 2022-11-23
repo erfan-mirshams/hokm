@@ -57,7 +57,7 @@ int main() {
         int game[CNT] = {-1, -1, -1, -1}; /*state of the game*/
         for (int i = 0; i < CNT; i++) {
             clear_screen();
-            draw_board(game);
+            draw_board(game, score);
             int cur = (starter + i) % CNT; /*current player*/
             int cardind, cardplayed;
             int khal;
@@ -73,11 +73,11 @@ int main() {
             } while (play(base, cardplayed, game + cur, fn[cur], deck[cur]));
         }
         clear_screen();
-        draw_board(game);
+        draw_board(game, score);
         starter = winner(base, hokm, game); /*winner is the starter of the next round*/
         score[starter & 1]++; /*add score of the winning team*/
     }
-    int champ = (score[0] == (DECKSIZE / 2 + 1) ? 0 : 1);
-    printf("THE WINNER IS %d\n", champ);
+    int champ = (score[0] == (DECKSIZE / 2 + 1) ? 1 : 2);
+    printf("THE WINNER IS Team%d!!!\n", champ);
     return 0;
 }
