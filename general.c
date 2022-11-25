@@ -22,7 +22,7 @@ void delay()
 {
     for(int i = 0; i < 1000;i++){
         for (int j = 0; j < 1000; j++) {
-            for(int k = 0; k < 1000; k++);
+            for(int k = 0; k < 200; k++);
         }
     }
 }
@@ -54,9 +54,6 @@ int ind_to_card(int *fn, int (*deck)[DECKSIZE], int ind) {
         }
         return i * DECKSIZE + deck[i][ind];
     }
-    return 0;
+    return -1;
 }
 
-void flush() {
-    while(getchar() != '\n');
-}
