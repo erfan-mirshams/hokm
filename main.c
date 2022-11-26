@@ -5,12 +5,12 @@
 #include "in-out.h"
 #include <stdio.h>
 
-int round_play(int *round_score, int king, int *bot) {
+int round_play(int *round_score, int king, int *bot) { /*function which is called in every round*/
     int card[KHAL * DECKSIZE];
     int deck[CNT][KHAL][DECKSIZE];
-    shuffle(card);
+    shuffle(card); /*randomize the order of cards*/
     int ord[] = {5, 4, 4};
-    int fn[CNT][KHAL]; /*pointers to where the player is able to use their cards*/
+    int fn[CNT][KHAL]; /*indexes to where the player is able to use their cards*/
     for (int i = 0; i < CNT; i++) { /*set fn to zero*/
         for (int j = 0; j < KHAL; j++) {
             fn[i][j] = 0;
@@ -21,11 +21,11 @@ int round_play(int *round_score, int king, int *bot) {
     for (int i = 0; i < CNT; i++) {
         for (int j = 0; j < 3; j++) {
             cardptr = distribute(ord[j], cardptr, fn[i], deck[i]);
-            if (i == king && j == 0) {
+            if (i == king && j == 0) { /*the situation in which the king sets a hokm*/
                 for (int k = 0; k < KHAL; k++) {
                     sort(deck[i][k], fn[i][k]);
                 }
-                if(bot[i]) {
+                if(bot[i]) { /*whether the king is not human*/
                     set_hokm(&hokm, bot_set_hokm(fn[i]));
                     continue;
                 }
@@ -54,7 +54,7 @@ int round_play(int *round_score, int king, int *bot) {
 
     int score[2] = {0, 0};
     int starter = king; /*the person who starts the round*/
-    while(MAX(score[0], score[1]) <= DECKSIZE / 2){
+    while(MAX(score[0], score[1]) <= DECKSIZE / 2){ /*play until one of the teams reaches 7 points*/
         int base = -1; /*what khal is the base in the begining it's determined by the starter*/
         int game[CNT] = {-1, -1, -1, -1}; /*state of the game*/
         for (int i = 0; i < CNT; i++) {
@@ -63,25 +63,22 @@ int round_play(int *round_score, int king, int *bot) {
             int cur = (starter + i) % CNT; /*current player*/
             int cardind, cardplayed;
             int khal;
-            if (bot[cur]) {
-                //inhand(cur, fn[cur], deck[cur]);
+            if (bot[cur]) { /*whether the player is not human*/
                 delay();
                 if (!i) {
                     cardplayed = bot_start(fn[cur], deck[cur], hokm);
                     khal = cardplayed / DECKSIZE;
                     base = khal;
                     play(base, cardplayed, game + cur, fn[cur], deck[cur]);
-                    //printf("CARDPLAYED: %d\n", cardplayed);
                     continue;
                 }
                 cardplayed = bot_play(cur, base, game, fn[cur], deck[cur], hokm);
                 play(base, cardplayed, game + cur, fn[cur], deck[cur]);
-                //printf("CARDPLAYED: %d\n", cardplayed);
                 continue;
             }
             int flag = 0;
             inhand(cur, fn[cur], deck[cur]);
-            do{
+            do{ /*in case of invalid input*/
                 if (flag) {
                     printf("YOU CANNOT PLAY THAT CARD.\n");
                     flush();
@@ -104,7 +101,7 @@ int round_play(int *round_score, int king, int *bot) {
         starter = winner(base, hokm, game); /*winner is the starter of the next round*/
         score[starter & 1]++; /*add score of the winning team*/
     }
-    int champ = (score[0] == (DECKSIZE / 2 + 1) ? 0 : 1);
+    int champ = (score[0] == (DECKSIZE / 2 + 1) ? 0 : 1); /*champ is the winning team of this round*/
     printf("The winner of this round is Team %d!!!\n", champ + 1);
     delay();
     round_score[champ]++;
@@ -113,11 +110,11 @@ int round_play(int *round_score, int king, int *bot) {
 
 int main(){
     int bot[CNT] = {-1, -1, -1, -1};
-    for (int i = 0; i < CNT; i++) {
+    for (int i = 0; i < CNT; i++) { /*determining type of players*/
         printf("Is player %d human? (y for yes n for no)\n", i + 1);
         char c;
         while (1) {
-            if(!yes_no(&c)){
+            if(!yes_no(&c)){ /*in order to handle invalid input*/
                 break;
             }
             printf("Invalid input! Correct form is (y/n)\n");
@@ -128,7 +125,7 @@ int main(){
     clear_screen();
     int round_score[2] = {0, 0};
     int king = 0, pre = 0;
-    while (MAX(round_score[0], round_score[1]) < WINNINGSCORE) {
+    while (MAX(round_score[0], round_score[1]) < WINNINGSCORE) { /*the first team to win the number of determined rounds is the overall winner*/
         int x = round_play(round_score, king, bot);
         if(x != pre){
             king++;

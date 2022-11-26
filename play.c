@@ -33,7 +33,7 @@ int mx_card(int *fn, int (*deck)[DECKSIZE], int hokm) { /*most valuable card fro
     return ind * DECKSIZE + deck[ind][fn[ind] - 1];
 }
 
-int bot_set_hokm(int *fn) {
+int bot_set_hokm(int *fn) { /*how the bot would set hokm*/
     int ind = -1, val = 0;
     for (int i = 0; i < KHAL; i++) {
         if (fn[i] > val) {
@@ -44,12 +44,12 @@ int bot_set_hokm(int *fn) {
     return ind;
 }
 
-int bot_start(int *fn, int (*deck)[DECKSIZE], int hokm) {
+int bot_start(int *fn, int (*deck)[DECKSIZE], int hokm) { /*how the bot would start the round*/
     int card = mx_card(fn, deck, hokm);
     return ((card % DECKSIZE) < 11 ? bepar(fn, deck, hokm) : card);
 }
 
-int bot_play (int ind, int base, int *game, int *fn, int (*deck)[DECKSIZE], int hokm){
+int bot_play (int ind, int base, int *game, int *fn, int (*deck)[DECKSIZE], int hokm){ /*the algorithm of how the bot would play*/
     int yar = ind ^ 2;
     int cur_win = winner(base, hokm, game);
 
@@ -84,7 +84,7 @@ int bot_play (int ind, int base, int *game, int *fn, int (*deck)[DECKSIZE], int 
     return bepar(fn, deck, hokm); /*other circumstances*/
 }
 
-int play (int base, int card, int *game, int *fn, int (*deck)[DECKSIZE]) {
+int play (int base, int card, int *game, int *fn, int (*deck)[DECKSIZE]) { /*checks whether the card is valid and adds it to the game state*/
     int khal = card / DECKSIZE;
     if (khal != base && fn[base]) {
         return 1;
@@ -106,7 +106,7 @@ int play (int base, int card, int *game, int *fn, int (*deck)[DECKSIZE]) {
     return flag;
 }
 
-int winner (int base, int hokm, int *game){
+int winner (int base, int hokm, int *game){ /*returns the winner of this rotation*/
     int mxind = -1, mxval = -1, mxkhal = base;
     for (int i = 0; i < CNT; i++) {
         if (game[i] == -1) {

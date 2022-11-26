@@ -1,13 +1,13 @@
 #include "general.h"
 #include <stdio.h>
 
-void swap (int *a, int *b) {
+void swap (int *a, int *b) { /*swaps the value of two integer pointers*/
     int tmp = *a;
     *a = *b;
     *b = tmp;
 }
 
-void shuffle (int *card){
+void shuffle (int *card){ /*shuffles the array card*/
     for (int i = 0; i < (KHAL * DECKSIZE); i++) {
         *(card + i) = i; /*initializing array*/
     }
@@ -18,11 +18,11 @@ void shuffle (int *card){
     }
 }
 
-void delay()
+void delay() /*adds delay so the pace of the game won't be too rapid*/
 {
     for(int i = 0; i < 1000;i++){
         for (int j = 0; j < 1000; j++) {
-            for(int k = 0; k < 200; k++);
+            for(int k = 0; k < 500; k++);
         }
     }
 }
@@ -37,7 +37,7 @@ void sort (int *arr, int sz) { /*bubble sort algorithm*/
     }
 }
 
-void convert(int x, char *ans){
+void convert(int x, char *ans){ /*converts card number to the conventional format*/
     ans[0] = 'A' + (x / DECKSIZE);
     x %= DECKSIZE;
     x++;
@@ -46,7 +46,7 @@ void convert(int x, char *ans){
     ans[3] = '\0';
 }
 
-int ind_to_card(int *fn, int (*deck)[DECKSIZE], int ind) {
+int ind_to_card(int *fn, int (*deck)[DECKSIZE], int ind) { /*returns the intended card based of index*/
     for (int i = 0; i < KHAL; i++) {
         if (ind >= fn[i]) {
             ind -= fn[i];
