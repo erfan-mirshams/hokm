@@ -87,6 +87,7 @@ int round_play(int *round_score, int king, int *bot) { /*function which is calle
                 printf("PLAY YOUR CARD: \n");
                 cardind = -1; /*in order to handle invalid input*/
                 scanf("%d", &cardind);
+                flush();
                 cardplayed = ind_to_card(fn[cur], deck[cur], cardind);
                 khal = cardplayed/ DECKSIZE;
                 if(!i){
