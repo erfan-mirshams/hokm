@@ -81,7 +81,6 @@ int round_play(int *round_score, int king, int *bot) { /*function which is calle
             do{ /*in case of invalid input*/
                 if (flag) {
                     printf("YOU CANNOT PLAY THAT CARD.\n");
-                    flush();
                     flag = 0;
                 }
                 printf("PLAY YOUR CARD: \n");
